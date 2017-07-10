@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var Search = require('google-search');
-var db = require("db");
+var db = require("./db");
 
 /* GET search listing. */
-router.get('/api/:query', function(req, res, next) {
+router.get('/:query', function(req, res, next) {
   //query string
   let query = req.params.query;
   
   //optional parameters
   let page = req.query.offset;
   
-  
-  res.send('respond with a resource');
+  console.log(query);
+  res.send(query);
 });
 
 module.exports = router;
