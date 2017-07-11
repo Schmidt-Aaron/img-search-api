@@ -8,13 +8,13 @@ router.get('/:query', function(req, res, next) {
   //query string
   let query = req.params.query;
   console.log(`Searching for ${query} pictures`);
-  //let timeStamp = new Date;
+  let timeStamp = new Date().toLocaleString();
 
   //optional parameters
   let resultsPerPage = 10;
   let page = 1 || req.query.offset * resultsPerPage;
   
-  var googleSearch = new Search({
+  let googleSearch = new Search({
     key: process.env.API_KEY,
     cx: process.env.CX
   });
@@ -34,7 +34,7 @@ router.get('/:query', function(req, res, next) {
     
     //adjust this to change output
     data.items.forEach(x => {
-        var item = {
+        let item = {
             title: x.title,
             imageURL: x.link,
             pageURL: x.image.contextLink
@@ -48,23 +48,3 @@ router.get('/:query', function(req, res, next) {
 });
 
 module.exports = router;
-
-/* EXAMPLE CALL
-var googleSearch = new GoogleSearch({
-  key: 'YOUR_API_KEY',
-  cx: 'YOUR_CX'
-});
- 
- 
-googleSearch.build({
-  q: "",
-  start: 5,
-  fileType: "pdf",
-  gl: "tr", //geolocation, 
-  lr: "lang_tr",
-  num: 10, // Number of search results to return between 1 and 10, inclusive 
-  siteSearch: "http://kitaplar.ankara.edu.tr/" // Restricts results to URLs from a specified site 
-}, function(error, response) {
-  console.log(response);
-});
-*/
