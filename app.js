@@ -6,9 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv').config();
 
+
+//routes
 var index = require('./routes/index');
 var search = require('./routes/search');
 var history = require('./routes/history');
+var db = require('./routes/db');
+
 
 var app = express();
 
@@ -27,6 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/search', search);
 app.use('/history', history);
+
+//set up db connection
+db.connect(process.env.MONGO_URL, function(err) {
+  if(err) {
+    console.log('unable to connect to Mongo.');
+    process.exit(1);
+  } 
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
